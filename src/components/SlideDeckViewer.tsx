@@ -5,12 +5,8 @@ import {
   ChevronRight,
   Sparkles,
   Compass,
-  Activity,
   Layers,
-  Zap,
   Radio,
-  Maximize2,
-  Scan,
   Shield,
   Gauge
 } from 'lucide-react';
@@ -35,18 +31,12 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
   onToggleViewMode,
   children,
 }) => {
-  // Direction tracking for 3D spatial flip
-  const [direction, setDirection] = useState<number>(1);
-  const [transitionFx, setTransitionFx] = useState<'3d-warp' | 'holo-flip' | 'kinetic-shutter'>('3d-warp');
-  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
-
   // Wheel / Gesture Scroll Scrub Accumulator State
   const [wheelCharge, setWheelCharge] = useState<number>(0);
   const [scrubDirection, setScrubDirection] = useState<'IDLE' | 'NEXT' | 'PREV'>('IDLE');
   const wheelAccumulator = useRef<number>(0);
   const isCooldown = useRef<boolean>(false);
   const scrubTimeout = useRef<NodeJS.Timeout | null>(null);
-  const lastSlideRef = useRef<number>(currentSlide);
 
   const slideTitles = [
     { id: 0, title: 'SENTINEL VISION', code: 'PROT-01', tag: 'HERO // COLD REALITY' },
@@ -62,11 +52,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
   const navigateTo = useCallback(
     (targetIndex: number) => {
       if (targetIndex === currentSlide || targetIndex < 0 || targetIndex >= totalSlides) return;
-      const dir = targetIndex > currentSlide ? 1 : -1;
-      setDirection(dir);
-      sounds.playWarp();
-      setIsTransitioning(true);
-      setTimeout(() => setIsTransitioning(false), 700);
+      sounds.playClick();
       onSelectSlide(targetIndex);
     },
     [currentSlide, totalSlides, onSelectSlide]
@@ -74,28 +60,22 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
 
   const handleNext = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
-      navigateTo(currentSlide + 1);
+      sounds.playClick();
+      onNext();
     }
-  }, [currentSlide, totalSlides, navigateTo]);
+  }, [currentSlide, totalSlides, onNext]);
 
   const handlePrev = useCallback(() => {
     if (currentSlide > 0) {
-      navigateTo(currentSlide - 1);
+      sounds.playClick();
+      onPrev();
     }
-  }, [currentSlide, navigateTo]);
-
-  // Keep track of slide changes for direction
-  useEffect(() => {
-    if (currentSlide !== lastSlideRef.current) {
-      setDirection(currentSlide > lastSlideRef.current ? 1 : -1);
-      lastSlideRef.current = currentSlide;
-    }
-  }, [currentSlide]);
+  }, [currentSlide, onPrev]);
 
   // Scroll Scrub Gesture Engine (Wheel & Trackpad Detection)
   useEffect(() => {
     const WHEEL_THRESHOLD = 140; // Accumulated delta needed to switch slide
-    const COOLDOWN_MS = 650; // Prevention of accidental rapid-fire skips
+    const COOLDOWN_MS = 600; // Prevention of accidental rapid-fire skips
 
     const handleWheel = (e: WheelEvent) => {
       // Don't intercept if scrolling inside a nested scrollable element with scroll height
@@ -202,181 +182,23 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev, onToggleViewMode, navigateTo, totalSlides]);
 
-  // 3D Motion Variants Matrix
-  const getVariants = () => {
-    switch (transitionFx) {
-      case '3d-warp':
-        return {
-          enter: (dir: number) => ({
-            x: dir > 0 ? '65%' : '-65%',
-            rotateY: dir > 0 ? 42 : -42,
-            rotateX: dir > 0 ? 5 : -5,
-            z: -420,
-            scale: 0.8,
-            opacity: 0,
-            filter: 'blur(10px) brightness(1.7) contrast(1.2)',
-          }),
-          center: {
-            x: 0,
-            rotateY: 0,
-            rotateX: 0,
-            z: 0,
-            scale: 1,
-            opacity: 1,
-            filter: 'blur(0px) brightness(1) contrast(1)',
-            transition: {
-              duration: 0.72,
-              ease: [0.16, 1, 0.3, 1],
-            },
-          },
-          exit: (dir: number) => ({
-            x: dir > 0 ? '-65%' : '65%',
-            rotateY: dir > 0 ? -42 : 42,
-            rotateX: dir > 0 ? -5 : 5,
-            z: -420,
-            scale: 0.8,
-            opacity: 0,
-            filter: 'blur(10px) brightness(0.4) contrast(1.2)',
-            transition: {
-              duration: 0.65,
-              ease: [0.16, 1, 0.3, 1],
-            },
-          }),
-        };
-
-      case 'holo-flip':
-        return {
-          enter: (dir: number) => ({
-            y: dir > 0 ? '60%' : '-60%',
-            rotateX: dir > 0 ? -50 : 50,
-            scale: 0.85,
-            opacity: 0,
-            filter: 'blur(12px)',
-          }),
-          center: {
-            y: 0,
-            rotateX: 0,
-            scale: 1,
-            opacity: 1,
-            filter: 'blur(0px)',
-            transition: { duration: 0.68, ease: [0.16, 1, 0.3, 1] },
-          },
-          exit: (dir: number) => ({
-            y: dir > 0 ? '-60%' : '60%',
-            rotateX: dir > 0 ? 50 : -50,
-            scale: 0.85,
-            opacity: 0,
-            filter: 'blur(12px)',
-            transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-          }),
-        };
-
-      case 'kinetic-shutter':
-      default:
-        return {
-          enter: (dir: number) => ({
-            x: dir > 0 ? '100%' : '-100%',
-            scale: 0.9,
-            opacity: 0,
-            skewX: dir > 0 ? -6 : 6,
-          }),
-          center: {
-            x: 0,
-            scale: 1,
-            opacity: 1,
-            skewX: 0,
-            transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
-          },
-          exit: (dir: number) => ({
-            x: dir > 0 ? '-100%' : '100%',
-            scale: 0.9,
-            opacity: 0,
-            skewX: dir > 0 ? 6 : -6,
-            transition: { duration: 0.58, ease: [0.16, 1, 0.3, 1] },
-          }),
-        };
-    }
-  };
-
   const currentInfo = slideTitles[currentSlide] || slideTitles[0];
 
   return (
-    <div className="relative w-full min-h-screen bg-[#0A0D10] text-[#EDE3D8] pt-16 pb-28 overflow-hidden flex flex-col justify-between select-none">
-      {/* 3D Depth Viewport Background Grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_right,#B81D13_1px,transparent_1px),linear-gradient(to_bottom,#B81D13_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+    <div className="relative w-full min-h-screen bg-[#0C0F12] pt-16 pb-24 overflow-hidden flex flex-col justify-between select-none">
+      {/* Background Subtle Grid Texture */}
+      <div className="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(#21262D_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-      {/* Top Tactical Telemetry HUD */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 py-2 flex items-center justify-between font-mono text-xs text-zinc-400 border-b border-[#1E2631]/80">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#12161E] border border-[#232B38] text-white">
-            <Shield className="w-3.5 h-3.5 text-[#B81D13]" />
-            <span className="font-bold tracking-wider font-tactical">SLIDE DECK 3D HUD</span>
-          </div>
-          <span className="hidden sm:inline text-zinc-500 font-tactical">{currentInfo.tag}</span>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-4 text-[11px]">
-          {/* Transition FX Switcher */}
-          <div className="flex items-center gap-1 bg-[#12161E] p-1 rounded-lg border border-[#232B38]">
-            {(['3d-warp', 'holo-flip', 'kinetic-shutter'] as const).map((fx) => (
-              <button
-                key={fx}
-                onClick={() => {
-                  sounds.playClick();
-                  setTransitionFx(fx);
-                }}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase transition-colors ${
-                  transitionFx === fx
-                    ? 'bg-[#B81D13] text-white shadow-sm'
-                    : 'text-zinc-500 hover:text-white'
-                }`}
-                title={`Switch transition mode to ${fx}`}
-              >
-                {fx.replace('-', ' ')}
-              </button>
-            ))}
-          </div>
-
-          <div className="hidden md:flex items-center gap-1 text-[#B81D13] font-bold">
-            <Activity className="w-3.5 h-3.5 animate-pulse" />
-            <span>KINETIC ENGINE ONLINE</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main 3D Perspective Stage */}
-      <div
-        className="relative w-full max-w-7xl mx-auto px-2 sm:px-4 flex-1 flex items-center justify-center my-auto py-2"
-        style={{
-          perspective: '1500px',
-          perspectiveOrigin: '50% 50%',
-        }}
-      >
-        {/* Flash Scanline Glitch Aperture Overlay during transitions */}
-        {isTransitioning && (
-          <motion.div
-            initial={{ opacity: 0.9, scaleY: 1 }}
-            animate={{ opacity: 0, scaleY: 0.05 }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
-            className="absolute inset-x-0 h-full z-40 pointer-events-none bg-gradient-to-r from-transparent via-[#B81D13]/40 to-transparent flex items-center justify-center"
-          >
-            <div className="w-full h-1 bg-white shadow-[0_0_20px_#B81D13]" />
-          </motion.div>
-        )}
-
-        <AnimatePresence mode="wait" custom={direction}>
+      {/* Main Slide Transition Stage (Clean, Smooth Scale & Opacity) */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 flex-1 flex items-center justify-center my-auto py-2">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            custom={direction}
-            variants={getVariants()}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            style={{
-              transformStyle: 'preserve-3d',
-              backfaceVisibility: 'hidden',
-            }}
-            className="w-full shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] rounded-2xl overflow-hidden border-2 border-[#263140] will-change-transform"
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 1.02, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full shadow-2xl rounded-2xl overflow-hidden border-2 border-[#232B36]"
           >
             {children}
           </motion.div>
@@ -390,7 +212,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
             initial={{ opacity: 0, scale: 0.85, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 15 }}
-            className="fixed top-24 right-6 z-50 bg-[#0E1218]/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#B81D13] shadow-[0_0_30px_rgba(184,29,19,0.4)] flex items-center gap-3 font-mono"
+            className="fixed top-20 right-6 z-50 bg-[#0E1218]/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#B81D13] shadow-[0_0_30px_rgba(184,29,19,0.4)] flex items-center gap-3 font-mono"
           >
             {/* Circular Gauge */}
             <div className="relative w-10 h-10 flex items-center justify-center">
@@ -485,10 +307,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
           {/* Left: Prev Slide Button & Current Slide Spec */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                sounds.playClick();
-                handlePrev();
-              }}
+              onClick={handlePrev}
               disabled={currentSlide === 0}
               className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentSlide === 0
@@ -536,10 +355,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
             </button>
 
             <button
-              onClick={() => {
-                sounds.playClick();
-                handleNext();
-              }}
+              onClick={handleNext}
               disabled={currentSlide === totalSlides - 1}
               className={`px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentSlide === totalSlides - 1
