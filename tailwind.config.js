@@ -30,10 +30,12 @@ export default {
         }
       },
       fontFamily: {
-        display: ['"Bebas Neue"', '"Anton"', 'sans-serif'],
-        condensed: ['"Oswald"', 'sans-serif'],
+        display: ['"Syne"', '"Bebas Neue"', '"Barlow Condensed"', 'sans-serif'],
+        heading: ['"Unbounded"', '"Space Grotesk"', 'sans-serif'],
+        tactical: ['"Chakra Petch"', '"Rajdhani"', 'sans-serif'],
+        condensed: ['"Barlow Condensed"', '"Oswald"', 'sans-serif'],
         mono: ['"JetBrains Mono"', '"Share Tech Mono"', 'monospace'],
-        body: ['"Inter"', 'sans-serif'],
+        body: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       boxShadow: {
         'hud-red': '0 0 20px rgba(184, 29, 19, 0.4), inset 0 0 15px rgba(184, 29, 19, 0.2)',

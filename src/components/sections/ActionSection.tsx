@@ -96,12 +96,12 @@ export const ActionSection: React.FC = () => {
       <div className="relative z-10 space-y-3">
         <BlurReveal delay={0.05} yOffset={15}>
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#B81D13] uppercase">
+            <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
               SECTION 02 // CRISIS REACTION &amp; ESCALATION
             </div>
 
-            <span className="text-xs font-mono bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
+            <span className="text-xs font-tactical bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
               TIME-TO-RESPOND: &lt; 2 SECONDS
             </span>
           </div>
@@ -114,7 +114,7 @@ export const ActionSection: React.FC = () => {
         </BlurReveal>
 
         <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-4xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
             When seconds matter, automation saves lives. <strong className="text-[#B81D13]">GAURDIA AI</strong> bridges the fatal gap between incident detection and physical response through verified multi-vector dispatch.
           </p>
         </BlurReveal>
@@ -166,7 +166,7 @@ export const ActionSection: React.FC = () => {
                       <Icon className="w-5 h-5" />
                     </div>
                     <span
-                      className={`font-mono text-[10px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider transition-all duration-300 ${
+                      className={`font-tactical text-[11px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider transition-all duration-300 ${
                         isHovered
                           ? 'bg-black/30 text-white'
                           : 'bg-black/10 group-hover:bg-black/30 group-hover:text-white text-[#12161A]'
@@ -184,7 +184,7 @@ export const ActionSection: React.FC = () => {
                     {card.title}
                   </h3>
                   <p
-                    className={`text-xs font-mono leading-relaxed mb-4 transition-colors duration-200 ${
+                    className={`text-xs font-body leading-relaxed mb-4 transition-colors duration-200 ${
                       isHovered ? 'text-white/90' : 'text-[#4A5568] group-hover:text-white/90'
                     }`}
                   >
@@ -195,13 +195,13 @@ export const ActionSection: React.FC = () => {
                 {/* Card Footer */}
                 <div className="pt-4 border-t border-current/20 flex items-center justify-between font-mono text-xs">
                   <span
-                    className={`font-bold transition-colors ${
+                    className={`font-condensed text-sm font-bold tracking-wider transition-colors ${
                       isHovered ? 'text-white' : 'text-[#12161A] group-hover:text-white'
                     }`}
                   >
                     {card.metric}
                   </span>
-                  <span className="text-[10px] opacity-80 group-hover:opacity-100 group-hover:font-bold transition-all">
+                  <span className="text-[10px] font-tactical opacity-80 group-hover:opacity-100 group-hover:font-bold transition-all">
                     {isHovered ? '● ACTIVE' : isSelected ? '● SELECTED' : 'INSPECT →'}
                   </span>
                 </div>

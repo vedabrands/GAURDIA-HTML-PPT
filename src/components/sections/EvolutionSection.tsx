@@ -77,12 +77,12 @@ export const EvolutionSection: React.FC = () => {
       <div className="relative z-10 space-y-3">
         <BlurReveal delay={0.05} yOffset={15}>
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#B81D13] uppercase">
+            <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
               SECTION 06 // AUTONOMOUS SENTINEL ROADMAP &amp; MESH
             </div>
 
-            <span className="text-xs font-mono bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
+            <span className="text-xs font-tactical bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
               EXPANDING HORIZONS
             </span>
           </div>
@@ -95,7 +95,7 @@ export const EvolutionSection: React.FC = () => {
         </BlurReveal>
 
         <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-4xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
             Transforming isolated surveillance cameras into an interconnected, cooperative visual intelligence grid capable of real-time multi-angle awareness.
           </p>
         </BlurReveal>
@@ -104,11 +104,11 @@ export const EvolutionSection: React.FC = () => {
       {/* Scroll Scrubbed Mesh Network Conduit */}
       <div className="relative z-10 my-2">
         <div className="flex items-center justify-between font-mono text-[11px] text-zinc-600 mb-1">
-          <span className="font-bold flex items-center gap-1 text-[#12161A]">
+          <span className="font-bold flex items-center gap-1 text-[#12161A] font-tactical">
             <Share2 className="w-3.5 h-3.5 text-[#B81D13]" />
             MUNICIPAL MESH EXPANSION VECTOR
           </span>
-          <span className="text-[#B81D13] font-bold">SCROLL-LINKED SPATIAL TOPOLOGY</span>
+          <span className="text-[#B81D13] font-bold font-tactical">SCROLL-LINKED SPATIAL TOPOLOGY</span>
         </div>
 
         <div className="w-full h-1.5 bg-[#12161A]/10 rounded-full overflow-hidden relative">
@@ -166,7 +166,7 @@ export const EvolutionSection: React.FC = () => {
                       PHASE {p.phase}
                     </span>
                     <span
-                      className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full text-white font-bold tracking-wider transition-all ${
+                      className={`text-[10px] font-tactical px-2.5 py-0.5 rounded-full text-white font-bold tracking-wider transition-all ${
                         isHovered ? 'bg-black/30 text-white' : p.badgeColor
                       }`}
                     >
@@ -189,7 +189,7 @@ export const EvolutionSection: React.FC = () => {
                     {p.timeline}
                   </div>
                   <p
-                    className={`text-xs font-mono leading-relaxed mb-4 transition-colors ${
+                    className={`text-xs font-body leading-relaxed mb-4 transition-colors ${
                       isHovered ? 'text-white/90' : 'text-[#4A5568] group-hover:text-white/90'
                     }`}
                   >
@@ -206,7 +206,7 @@ export const EvolutionSection: React.FC = () => {
                           isHovered ? 'text-white' : 'text-[#B81D13] group-hover:text-white'
                         }`}
                       />
-                      <span className="truncate">{c}</span>
+                      <span className="truncate font-body text-xs">{c}</span>
                     </div>
                   ))}
                 </div>
@@ -220,11 +220,11 @@ export const EvolutionSection: React.FC = () => {
       <BlurReveal delay={0.25} yOffset={30}>
         <div className="relative z-10 my-2 space-y-2">
           <div className="flex items-center justify-between font-mono text-xs text-[#12161A]">
-            <span className="font-bold flex items-center gap-1.5">
+            <span className="font-bold flex items-center gap-1.5 font-tactical">
               <Network className="w-4 h-4 text-[#B81D13]" />
               LIVE MULTI-CAMERA MESH VISUALIZATION
             </span>
-            <span className="text-[#B81D13] font-bold">CLICK NODES TO SWITCH PERSPECTIVE</span>
+            <span className="text-[#B81D13] font-bold font-tactical">CLICK NODES TO SWITCH PERSPECTIVE</span>
           </div>
 
           <motion.div

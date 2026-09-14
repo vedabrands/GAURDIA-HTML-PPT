@@ -163,7 +163,7 @@ export const UnderstandingSection: React.FC = () => {
       <div className="relative z-10 space-y-3">
         <BlurReveal delay={0.05} yOffset={15}>
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#B81D13] uppercase">
+            <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
               SECTION 04 // TEMPORAL CONTEXTUAL RECONSTRUCTION
             </div>
@@ -173,7 +173,7 @@ export const UnderstandingSection: React.FC = () => {
               whileTap={{ scale: 0.96 }}
               onMouseEnter={() => sounds.playHover()}
               onClick={toggleAutoPlay}
-              className={`px-3.5 py-1.5 rounded-full font-mono text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
+              className={`px-3.5 py-1.5 rounded-full font-tactical text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
                 isPlaying
                   ? 'bg-amber-500 text-black animate-pulse'
                   : 'bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white border border-[#12161A]/15 text-[#12161A]'
@@ -192,7 +192,7 @@ export const UnderstandingSection: React.FC = () => {
         </BlurReveal>
 
         <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-4xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
             An isolated frame is blind. <strong className="text-[#B81D13]">GAURDIA AI</strong> reconstructs temporal context across timecode vectors to distinguish accidental contact from deliberate assault.
           </p>
         </BlurReveal>
@@ -251,7 +251,7 @@ export const UnderstandingSection: React.FC = () => {
                     </span>
                   </div>
                   <div
-                    className={`text-[11px] font-sans font-bold uppercase truncate transition-colors ${
+                    className={`text-[11px] font-tactical font-bold uppercase truncate transition-colors ${
                       isHovered ? 'text-white/90' : 'text-zinc-600 group-hover:text-white'
                     }`}
                   >
@@ -288,7 +288,7 @@ export const UnderstandingSection: React.FC = () => {
             {/* Left 7 Cols: Detailed Analysis */}
             <div className="lg:col-span-7 space-y-4">
               <div className="flex items-center gap-3 flex-wrap">
-                <span className={`px-3 py-1 rounded-md font-mono text-xs font-bold uppercase shadow-sm ${getStatusColor(currentStep.status)}`}>
+                <span className={`px-3 py-1 rounded-md font-tactical text-xs font-bold uppercase shadow-sm ${getStatusColor(currentStep.status)}`}>
                   STATUS: {currentStep.status}
                 </span>
                 <span className="font-mono text-xs text-zinc-400">
@@ -300,7 +300,7 @@ export const UnderstandingSection: React.FC = () => {
                 {currentStep.title}
               </h3>
 
-              <p className="font-mono text-xs sm:text-sm text-zinc-300 leading-relaxed">
+              <p className="font-body text-sm sm:text-base text-zinc-300 leading-relaxed">
                 {currentStep.description}
               </p>
 
@@ -311,11 +311,11 @@ export const UnderstandingSection: React.FC = () => {
                 onMouseEnter={() => sounds.playHover()}
                 className="p-3.5 rounded-xl bg-[#161D26] hover:bg-[#1C2633] border border-[#2B3848] hover:border-cyan-400/50 text-xs font-mono space-y-1 transition-all duration-200 cursor-default"
               >
-                <div className="text-cyan-400 font-bold flex items-center gap-1.5">
+                <div className="text-cyan-400 font-tactical font-bold flex items-center gap-1.5 text-xs">
                   <Activity className="w-3.5 h-3.5" />
                   NEURAL HEURISTIC TRIGGER
                 </div>
-                <p className="text-zinc-300">{currentStep.heuristic}</p>
+                <p className="text-zinc-300 font-body text-xs">{currentStep.heuristic}</p>
               </motion.div>
             </div>
 

@@ -107,12 +107,12 @@ export const EngineSection: React.FC = () => {
       <div className="relative z-10 space-y-3">
         <BlurReveal delay={0.05} yOffset={15}>
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#B81D13] uppercase">
+            <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
               SECTION 05 // SYSTEM ARCHITECTURE &amp; KERNEL SPECIFICATIONS
             </div>
 
-            <span className="text-xs font-mono bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
+            <span className="text-xs font-tactical bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
               MODULAR EDGE &amp; CLOUD HYBRID
             </span>
           </div>
@@ -125,7 +125,7 @@ export const EngineSection: React.FC = () => {
         </BlurReveal>
 
         <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-4xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
             High throughput. Low latency. Zero compromise. Built with modular micro-engines designed to operate on local edge hardware or distributed cloud nodes.
           </p>
         </BlurReveal>
@@ -134,11 +134,11 @@ export const EngineSection: React.FC = () => {
       {/* Scroll Scrubbed Micro-Engine Data Conduit */}
       <div className="relative z-10 my-2">
         <div className="flex items-center justify-between font-mono text-[11px] text-zinc-600 mb-1">
-          <span className="font-bold flex items-center gap-1 text-[#12161A]">
+          <span className="font-bold flex items-center gap-1 text-[#12161A] font-tactical">
             <Gauge className="w-3.5 h-3.5 text-[#B81D13]" />
             TENSORRT QUANTIZATION PIPELINE FLOW
           </span>
-          <span className="text-[#B81D13] font-bold">SCROLL-LINKED ENGINE METRICS</span>
+          <span className="text-[#B81D13] font-bold font-tactical">SCROLL-LINKED ENGINE METRICS</span>
         </div>
 
         <div className="w-full h-1.5 bg-[#12161A]/10 rounded-full overflow-hidden relative">
@@ -199,7 +199,7 @@ export const EngineSection: React.FC = () => {
                       <Icon className="w-5 h-5" />
                     </div>
                     <span
-                      className={`font-mono text-[9px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition-colors ${
+                      className={`font-tactical text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition-colors ${
                         isHovered
                           ? 'bg-black/30 text-white'
                           : 'bg-black/10 group-hover:bg-black/30 group-hover:text-white text-[#12161A]'
@@ -224,7 +224,7 @@ export const EngineSection: React.FC = () => {
                     {mod.tech}
                   </div>
                   <p
-                    className={`text-xs font-mono leading-relaxed transition-colors ${
+                    className={`text-xs font-body leading-relaxed transition-colors ${
                       isHovered ? 'text-white/90' : 'text-[#4A5568] group-hover:text-white/90'
                     }`}
                   >
@@ -234,13 +234,13 @@ export const EngineSection: React.FC = () => {
 
                 <div className="mt-4 pt-3 border-t border-current/20 flex items-center justify-between font-mono text-xs">
                   <span
-                    className={`font-bold transition-colors ${
+                    className={`font-condensed font-bold text-sm tracking-wide transition-colors ${
                       isHovered ? 'text-white' : 'text-[#12161A] group-hover:text-white'
                     }`}
                   >
                     {mod.metric}
                   </span>
-                  <span className="text-[10px] opacity-80 group-hover:opacity-100 group-hover:font-bold transition-all">
+                  <span className="text-[10px] font-tactical opacity-80 group-hover:opacity-100 group-hover:font-bold transition-all">
                     {isHovered ? '● ACTIVE' : isSelected ? '● SELECTED' : 'INSPECT →'}
                   </span>
                 </div>
@@ -259,20 +259,20 @@ export const EngineSection: React.FC = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             <div className="md:col-span-6 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold">
+              <div className="flex items-center gap-2 text-xs font-tactical text-cyan-400 font-bold">
                 <Zap className="w-4 h-4" />
                 DETAILED COMPONENT BREAKDOWN: {currentModule.name.toUpperCase()}
               </div>
-              <h4 className="font-display text-2xl uppercase tracking-wider text-white">
+              <h4 className="font-display text-2xl sm:text-3xl uppercase tracking-wider text-white">
                 {currentModule.tech}
               </h4>
-              <p className="text-xs font-mono text-zinc-300 leading-relaxed">
+              <p className="text-xs sm:text-sm font-body text-zinc-300 leading-relaxed">
                 {currentModule.description}
               </p>
             </div>
 
             <div className="md:col-span-6 bg-[#0B0E13] p-4 rounded-xl border border-[#1E2633] space-y-2 shadow-inner">
-              <div className="text-[10px] font-mono text-zinc-400 font-bold uppercase tracking-wider mb-1">
+              <div className="text-[10px] font-tactical text-zinc-400 font-bold uppercase tracking-wider mb-1">
                 ENGINE SPECIFICATIONS:
               </div>
               {currentModule.specifications.map((spec, i) => (
@@ -284,7 +284,7 @@ export const EngineSection: React.FC = () => {
                   className="flex items-center gap-2 text-xs font-mono text-zinc-200 p-1.5 rounded hover:bg-[#131922] transition-colors cursor-default"
                 >
                   <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>{spec}</span>
+                  <span className="font-body text-xs">{spec}</span>
                 </motion.div>
               ))}
             </div>

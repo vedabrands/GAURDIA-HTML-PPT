@@ -38,14 +38,14 @@ export const HeroSection: React.FC = () => {
 
           {/* Monospace Subheader */}
           <BlurReveal delay={0.15} yOffset={15}>
-            <div className="flex items-center gap-3 text-sm sm:text-base md:text-lg font-mono font-bold tracking-widest text-[#12161A] uppercase border-b-2 border-[#12161A] pb-2">
+            <div className="flex items-center gap-3 text-sm sm:text-base md:text-lg font-tactical font-bold tracking-widest text-[#12161A] uppercase border-b-2 border-[#12161A] pb-2">
               <span className="text-[#B81D13]">■</span> WATCHING. UNDERSTANDING. RESPONDING.
             </div>
           </BlurReveal>
 
           {/* Description */}
           <BlurReveal delay={0.25} yOffset={20}>
-            <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-3xl leading-relaxed pt-2">
+            <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-3xl leading-relaxed pt-2">
               <strong className="text-[#B81D13] font-bold underline decoration-[#B81D13]/40">GAURDIA AI</strong> turns ordinary CCTV into an intelligent first responder — detecting people, analyzing movement, identifying incidents, and triggering real-time alerts.
             </p>
           </BlurReveal>
@@ -53,7 +53,7 @@ export const HeroSection: React.FC = () => {
           {/* Big Punchy Banner */}
           <BlurReveal delay={0.35} yOffset={20}>
             <div className="pt-2">
-              <div className="font-display text-4xl sm:text-6xl lg:text-7xl tracking-wide text-[#12161A] leading-none select-none">
+              <div className="font-heading text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#12161A] leading-none select-none">
                 DON'T JUST RECORD. <span className="text-[#B81D13]">REPORT IT.</span>
               </div>
             </div>
@@ -173,12 +173,12 @@ export const HeroSection: React.FC = () => {
                         ★
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-sans font-bold text-base flex items-center justify-between transition-colors">
+                        <div className="font-heading font-bold text-sm flex items-center justify-between transition-colors">
                           <span className={isHovered ? 'text-white' : 'text-[#12161A] group-hover:text-white'}>
                             {c.name}
                           </span>
                           <span
-                            className={`text-[10px] font-mono font-semibold tracking-wider px-1.5 py-0.5 rounded transition-colors ${
+                            className={`text-[10px] font-tactical font-bold tracking-wider px-1.5 py-0.5 rounded transition-colors ${
                               isHovered
                                 ? 'text-white bg-black/30'
                                 : 'text-[#B81D13] bg-red-100/70 group-hover:bg-black/30 group-hover:text-white'
@@ -188,7 +188,7 @@ export const HeroSection: React.FC = () => {
                           </span>
                         </div>
                         <p
-                          className={`text-xs font-mono mt-0.5 truncate transition-colors ${
+                          className={`text-xs font-body mt-0.5 truncate transition-colors ${
                             isHovered ? 'text-white/90' : 'text-[#4A5568] group-hover:text-white/90'
                           }`}
                         >

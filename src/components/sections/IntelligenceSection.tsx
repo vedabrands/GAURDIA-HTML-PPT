@@ -71,13 +71,13 @@ export const IntelligenceSection: React.FC = () => {
       <div className="relative z-10 space-y-3">
         <BlurReveal delay={0.05} yOffset={15}>
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#B81D13] uppercase">
+            <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
               SECTION 03 // VISION &amp; KINEMATICS PIPELINE
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
+              <span className="text-xs font-tactical bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white transition-colors px-3 py-1 rounded-full border border-[#12161A]/15 font-bold cursor-default">
                 TOTAL LATENCY: &lt; 35MS PER FRAME (30 FPS)
               </span>
             </div>
@@ -91,7 +91,7 @@ export const IntelligenceSection: React.FC = () => {
         </BlurReveal>
 
         <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-mono text-[#2B303A] max-w-4xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
             Traditional cameras only record passive pixels. <strong className="text-[#B81D13]">GAURDIA AI</strong> executes a real-time 5-stage neural inference pipeline to understand kinematic intent and posture dynamics.
           </p>
         </BlurReveal>
@@ -174,7 +174,7 @@ export const IntelligenceSection: React.FC = () => {
                   </div>
 
                   <h4
-                    className={`font-sans font-bold text-sm uppercase mb-1 transition-colors ${
+                    className={`font-heading font-bold text-sm uppercase mb-1 transition-colors ${
                       isHovered ? 'text-white' : 'text-[#12161A] group-hover:text-white'
                     }`}
                   >
@@ -182,7 +182,7 @@ export const IntelligenceSection: React.FC = () => {
                   </h4>
 
                   <div
-                    className={`text-[11px] font-mono font-semibold mb-2 transition-colors ${
+                    className={`text-[11px] font-tactical font-semibold mb-2 transition-colors ${
                       isHovered ? 'text-red-200' : 'text-[#B81D13] group-hover:text-red-100'
                     }`}
                   >
@@ -190,7 +190,7 @@ export const IntelligenceSection: React.FC = () => {
                   </div>
 
                   <p
-                    className={`text-xs font-mono leading-snug transition-colors ${
+                    className={`text-xs font-body leading-snug transition-colors ${
                       isHovered ? 'text-white/90' : 'text-[#4A5568] group-hover:text-white/90'
                     }`}
                   >

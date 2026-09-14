@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 sounds.playClick();
                 onSelectSlide(s.id);
               }}
-              className={`px-2.5 py-1 rounded text-xs font-mono transition-all ${
+              className={`px-2.5 py-1 rounded text-xs font-tactical font-bold transition-all ${
                 currentSlide === s.id
                   ? 'bg-[#B81D13] text-white font-bold shadow-sm scale-105'
                   : 'text-zinc-400 hover:text-white hover:bg-white/5'
@@ -92,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Actions */}
         <div className="flex items-center gap-2">
           {/* Mode Switcher */}
-          <div className="flex items-center bg-[#141920] p-0.5 rounded-lg border border-[#232B36] text-xs font-mono">
+          <div className="flex items-center bg-[#141920] p-0.5 rounded-lg border border-[#232B36] text-xs font-tactical">
             <button
               onClick={() => {
                 sounds.playClick();
