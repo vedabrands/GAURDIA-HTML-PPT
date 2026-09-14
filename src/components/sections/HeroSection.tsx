@@ -37,14 +37,9 @@ export const HeroSection: React.FC = () => {
 
         <BlurReveal delay={0.12} yOffset={15}>
           {/* Main Display Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#B81D13] leading-[0.9] uppercase drop-shadow-sm select-none max-w-full"
-          >
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#B81D13] leading-[0.9] uppercase drop-shadow-sm select-none max-w-full">
             LIKE A PROTECTOR
-          </motion.h1>
+          </h1>
         </BlurReveal>
 
         {/* Monospace Subheader */}

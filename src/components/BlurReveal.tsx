@@ -13,10 +13,10 @@ interface BlurRevealProps {
 export const BlurReveal: React.FC<BlurRevealProps> = ({
   children,
   delay = 0,
-  duration = 0.7,
-  yOffset = 20,
+  duration = 0.8,
+  yOffset = 25,
   className = '',
-  blurAmount = 12,
+  blurAmount = 14,
 }) => {
   return (
     <motion.div
@@ -26,12 +26,13 @@ export const BlurReveal: React.FC<BlurRevealProps> = ({
         y: yOffset,
         scale: 0.98,
       }}
-      animate={{
+      whileInView={{
         opacity: 1,
         filter: 'blur(0px)',
         y: 0,
         scale: 1,
       }}
+      viewport={{ once: true, amount: 0.08, margin: '0px 0px -40px 0px' }}
       transition={{
         duration,
         delay,
