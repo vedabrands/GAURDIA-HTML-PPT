@@ -12,7 +12,7 @@ export const HeroSection: React.FC = () => {
     { name: 'Dev Vashisht', role: 'VISION ANCHOR', icon: '★', bio: 'AI Architecture & System Conception' },
     { name: 'Rohit Jana', role: 'BYTE SMITH', icon: '★', bio: 'Computer Vision & Inference Pipeline' },
     { name: 'Manish', role: 'PIXEL ARCHITECT', icon: '★', bio: 'HUD Interface & Motion Telemetry' },
-    { name: 'Ziyullah Ahmed', role: 'INSIGHT ALCHEMIST', icon: '★', bio: 'Kinematic Models & Behavior Heuristics' },
+    { name: 'Ziyaullah Ahmed', role: 'INSIGHT ALCHEMIST', icon: '★', bio: 'Kinematic Models & Behavior Heuristics' },
   ];
 
   return (
@@ -30,9 +30,10 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-6xl sm:text-8xl lg:text-9xl tracking-tight text-[#B81D13] leading-none uppercase drop-shadow-sm select-none"
+              className="font-display text-5xl sm:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-[#B81D13] leading-[0.88] uppercase drop-shadow-sm select-none max-w-full"
             >
-              LIKE A PROTECTOR
+              <span className="block">LIKE A</span>
+              <span className="block">PROTECTOR</span>
             </motion.h1>
           </BlurReveal>
 

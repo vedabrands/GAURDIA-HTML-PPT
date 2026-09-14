@@ -31,7 +31,7 @@ export const ManifestoSection: React.FC<{ onRestart?: () => void }> = ({ onResta
       specialty: 'Dynamic Spatial HUD & Canvas Physics',
     },
     {
-      name: 'Ziyullah Ahmed',
+      name: 'Ziyaullah Ahmed',
       role: 'INSIGHT ALCHEMIST',
       icon: '★',
       desc: 'Kinematic Models & Behavior Heuristics',
@@ -110,7 +110,7 @@ export const ManifestoSection: React.FC<{ onRestart?: () => void }> = ({ onResta
                   // {item.badge}
                 </span>
                 <div
-                  className={`font-heading text-3xl uppercase tracking-wider mb-1 transition-colors ${
+                  className={`font-display text-2xl sm:text-3xl uppercase tracking-tight leading-tight mb-2 break-words transition-colors ${
                     isHovered ? 'text-white' : 'text-[#12161A]'
                   }`}
                 >
