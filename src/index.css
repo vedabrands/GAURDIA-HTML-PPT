@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-[#0C0F12] text-zinc-100 antialiased overflow-x-hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0C0F12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2D3748;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B81D13;
+}
+
+/* Grid overlay background */
+.bg-grid-pattern {
+  background-size: 30px 30px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Hazard Stripes Utility */
+.hazard-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    #B81D13,
+    #B81D13 10px,
+    #F5EFEB 10px,
+    #F5EFEB 20px
+  );
+}
+
+/* Scanline effect */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+}
+
+/* Interactive Card Bulge & Glow Effects */
+.card-tactical-interactive {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow, background-color, border-color;
+}
+
+.card-tactical-interactive:hover {
+  transform: translateY(-6px) scale(1.035);
+  box-shadow: 0 20px 35px -10px rgba(184, 29, 19, 0.28), 0 0 15px 0 rgba(184, 29, 19, 0.15);
+}
+
+.card-tactical-dark {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-tactical-dark:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 20px 40px -10px rgba(0, 229, 255, 0.2), 0 0 20px 0 rgba(184, 29, 19, 0.2);
+}
+
