@@ -154,14 +154,14 @@ export const UnderstandingSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen bg-[#F5EFEB] text-[#12161A] p-4 sm:p-8 md:p-12 flex flex-col justify-between overflow-hidden border-b-4 border-[#B81D13] shadow-2xl"
+      className="relative w-full bg-[#F5EFEB] text-[#12161A] p-4 sm:p-6 lg:p-7 flex flex-col justify-between overflow-hidden border-b-4 border-[#B81D13] shadow-2xl rounded-2xl"
     >
       {/* Background Texture & Subtle Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-35 bg-[radial-gradient(#12161A_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
       {/* Header */}
-      <div className="relative z-10 space-y-3">
-        <BlurReveal delay={0.05} yOffset={15}>
+      <div className="relative z-10 space-y-2">
+        <BlurReveal delay={0.05} yOffset={10}>
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2 text-xs font-tactical font-bold tracking-widest text-[#B81D13] uppercase">
               <span className="w-2.5 h-2.5 bg-[#B81D13] rounded-sm"></span>
@@ -173,7 +173,7 @@ export const UnderstandingSection: React.FC = () => {
               whileTap={{ scale: 0.96 }}
               onMouseEnter={() => sounds.playHover()}
               onClick={toggleAutoPlay}
-              className={`px-3.5 py-1.5 rounded-full font-tactical text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
+              className={`px-3 py-0.5 rounded-full font-tactical text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer ${
                 isPlaying
                   ? 'bg-amber-500 text-black animate-pulse'
                   : 'bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white border border-[#12161A]/15 text-[#12161A]'
@@ -185,32 +185,32 @@ export const UnderstandingSection: React.FC = () => {
           </div>
         </BlurReveal>
 
-        <BlurReveal delay={0.15} yOffset={20}>
-          <h2 className="font-display text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#12161A] leading-none uppercase">
+        <BlurReveal delay={0.12} yOffset={15}>
+          <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#12161A] leading-none uppercase">
             IT DOESN'T JUST SEE. <span className="text-[#B81D13]">IT UNDERSTANDS.</span>
           </h2>
         </BlurReveal>
 
-        <BlurReveal delay={0.25} yOffset={20}>
-          <p className="text-base sm:text-lg md:text-xl font-body text-[#2B303A] max-w-4xl leading-relaxed">
+        <BlurReveal delay={0.18} yOffset={10}>
+          <p className="text-sm sm:text-base font-body text-[#2B303A] max-w-4xl leading-relaxed">
             An isolated frame is blind. <strong className="text-[#B81D13]">GAURDIA AI</strong> reconstructs temporal context across timecode vectors to distinguish accidental contact from deliberate assault.
           </p>
         </BlurReveal>
       </div>
 
       {/* Interactive Time Scrubber Bar */}
-      <div className="relative z-10 my-4">
+      <div className="relative z-10 my-3">
         {/* Step Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-2.5">
           {steps.map((step, idx) => {
             const isSelected = selectedStepIndex === idx;
             const isHovered = hoveredStepIdx === idx;
             const isDull = hoveredStepIdx !== null && !isHovered;
 
             return (
-              <BlurReveal key={step.timecode} delay={0.1 + idx * 0.05} yOffset={20}>
+              <BlurReveal key={step.timecode} delay={0.08 + idx * 0.04} yOffset={15}>
                 <motion.button
-                  whileHover={{ scale: 1.05, y: -6 }}
+                  whileHover={{ scale: 1.04, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 380, damping: 22 }}
                   onMouseEnter={() => {
@@ -222,7 +222,7 @@ export const UnderstandingSection: React.FC = () => {
                     sounds.playClick();
                     setSelectedStepIndex(idx);
                   }}
-                  className={`w-full p-3 rounded-xl font-mono text-left border-2 transition-all duration-300 flex flex-col justify-between group cursor-pointer ${
+                  className={`w-full p-2.5 sm:p-3 rounded-xl font-mono text-left border-2 transition-all duration-300 flex flex-col justify-between group cursor-pointer ${
                     isHovered
                       ? 'bg-[#B81D13] text-white border-white/60 shadow-[0_15px_30px_-8px_rgba(184,29,19,0.55)]'
                       : isDull
@@ -251,7 +251,7 @@ export const UnderstandingSection: React.FC = () => {
                     </span>
                   </div>
                   <div
-                    className={`text-[11px] font-tactical font-bold uppercase truncate transition-colors ${
+                    className={`text-[10px] font-tactical font-bold uppercase truncate transition-colors ${
                       isHovered ? 'text-white/90' : 'text-zinc-600 group-hover:text-white'
                     }`}
                   >
@@ -264,7 +264,7 @@ export const UnderstandingSection: React.FC = () => {
         </div>
 
         {/* Scroll-Scrubbed Telemetry Timeline */}
-        <div className="w-full bg-[#12161A]/10 h-2 rounded-full overflow-hidden relative">
+        <div className="w-full bg-[#12161A]/10 h-1.5 rounded-full overflow-hidden relative">
           <motion.div
             style={{ width: scrubberWidth }}
             className="h-full bg-gradient-to-r from-[#B81D13] via-amber-500 to-[#B81D13] relative rounded-full"
@@ -278,29 +278,29 @@ export const UnderstandingSection: React.FC = () => {
       </div>
 
       {/* Main Selected State Showcase Card */}
-      <BlurReveal delay={0.2} yOffset={30}>
+      <BlurReveal delay={0.2} yOffset={20}>
         <motion.div
-          whileHover={{ scale: 1.015, y: -4 }}
+          whileHover={{ scale: 1.015, y: -3 }}
           transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-          className="relative z-10 bg-[#10141A] hover:bg-[#151B22] rounded-2xl p-6 sm:p-8 text-white border-2 border-[#232B36] hover:border-[#B81D13] shadow-2xl hover:shadow-[0_25px_45px_-10px_rgba(184,29,19,0.35)] transition-all duration-300"
+          className="relative z-10 bg-[#10141A] hover:bg-[#151B22] rounded-2xl p-4 sm:p-5 text-white border-2 border-[#232B36] hover:border-[#B81D13] shadow-2xl hover:shadow-[0_25px_45px_-10px_rgba(184,29,19,0.35)] transition-all duration-300"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
             {/* Left 7 Cols: Detailed Analysis */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className={`px-3 py-1 rounded-md font-tactical text-xs font-bold uppercase shadow-sm ${getStatusColor(currentStep.status)}`}>
+            <div className="lg:col-span-7 space-y-2.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className={`px-2.5 py-0.5 rounded-md font-tactical text-[11px] font-bold uppercase shadow-sm ${getStatusColor(currentStep.status)}`}>
                   STATUS: {currentStep.status}
                 </span>
-                <span className="font-mono text-xs text-zinc-400">
+                <span className="font-mono text-[11px] text-zinc-400">
                   TIMECODE // {currentStep.timecode} (PHASE {selectedStepIndex + 1}/5)
                 </span>
               </div>
 
-              <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl uppercase tracking-wide text-white leading-tight">
+              <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl uppercase tracking-wide text-white leading-tight">
                 {currentStep.title}
               </h3>
 
-              <p className="font-body text-sm sm:text-base text-zinc-300 leading-relaxed">
+              <p className="font-body text-xs sm:text-sm text-zinc-300 leading-relaxed">
                 {currentStep.description}
               </p>
 
@@ -309,10 +309,10 @@ export const UnderstandingSection: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 20 }}
                 onMouseEnter={() => sounds.playHover()}
-                className="p-3.5 rounded-xl bg-[#161D26] hover:bg-[#1C2633] border border-[#2B3848] hover:border-cyan-400/50 text-xs font-mono space-y-1 transition-all duration-200 cursor-default"
+                className="p-2.5 sm:p-3 rounded-xl bg-[#161D26] hover:bg-[#1C2633] border border-[#2B3848] hover:border-cyan-400/50 text-xs font-mono space-y-0.5 transition-all duration-200 cursor-default"
               >
-                <div className="text-cyan-400 font-tactical font-bold flex items-center gap-1.5 text-xs">
-                  <Activity className="w-3.5 h-3.5" />
+                <div className="text-cyan-400 font-tactical font-bold flex items-center gap-1.5 text-[11px]">
+                  <Activity className="w-3 h-3" />
                   NEURAL HEURISTIC TRIGGER
                 </div>
                 <p className="text-zinc-300 font-body text-xs">{currentStep.heuristic}</p>
@@ -320,13 +320,13 @@ export const UnderstandingSection: React.FC = () => {
             </div>
 
             {/* Right 5 Cols: Live Kinematic Matrix */}
-            <div className="lg:col-span-5 bg-[#0A0D11] p-5 rounded-xl border border-[#202733] font-mono text-xs space-y-3 shadow-inner">
-              <div className="flex items-center justify-between pb-2 border-b border-[#202733] text-zinc-400 font-bold">
+            <div className="lg:col-span-5 bg-[#0A0D11] p-3.5 sm:p-4 rounded-xl border border-[#202733] font-mono text-xs space-y-2 shadow-inner">
+              <div className="flex items-center justify-between pb-1.5 border-b border-[#202733] text-zinc-400 font-bold text-[11px]">
                 <span>TEMPORAL TELEMETRY</span>
                 <span className="text-emerald-400">30 FPS SYNC</span>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-1.5">
                 {[
                   { label: 'Subject Proximity:', value: currentStep.telemetry.proximity, valColor: 'text-white' },
                   { label: 'Kinetic Velocity:', value: currentStep.telemetry.velocity, valColor: 'text-amber-400' },
@@ -346,7 +346,7 @@ export const UnderstandingSection: React.FC = () => {
                         setHoveredTelemIdx(idx);
                       }}
                       onMouseLeave={() => setHoveredTelemIdx(null)}
-                      className={`flex justify-between items-center p-2.5 rounded border transition-all duration-200 cursor-pointer ${
+                      className={`flex justify-between items-center p-2 rounded border transition-all duration-200 cursor-pointer ${
                         isHovered
                           ? 'bg-[#B81D13] text-white border-white/60 shadow-md'
                           : isDull
@@ -366,10 +366,10 @@ export const UnderstandingSection: React.FC = () => {
       </BlurReveal>
 
       {/* Footer Hazard Stripe */}
-      <BlurReveal delay={0.3} yOffset={15}>
-        <div className="relative z-10 mt-6 pt-3 border-t-2 border-[#12161A] flex items-center justify-between text-xs font-mono">
+      <BlurReveal delay={0.28} yOffset={10}>
+        <div className="relative z-10 mt-4 pt-3 border-t-2 border-[#12161A] flex items-center justify-between text-xs font-mono">
           <div className="flex items-center gap-2">
-            <div className="w-16 h-3.5 bg-[repeating-linear-gradient(45deg,#B81D13,#B81D13_6px,#F5EFEB_6px,#F5EFEB_12px)] border border-[#B81D13]"></div>
+            <div className="w-16 h-3 bg-[repeating-linear-gradient(45deg,#B81D13,#B81D13_6px,#F5EFEB_6px,#F5EFEB_12px)] border border-[#B81D13]"></div>
             <span className="font-bold">CONTINUOUS TEMPORAL POSE CONVOLUTION</span>
           </div>
           <span className="text-zinc-600 hidden sm:inline">GAURDIA AI // SLIDE 04</span>
