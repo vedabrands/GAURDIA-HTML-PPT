@@ -104,7 +104,7 @@ export const App: React.FC = () => {
       case 6:
         return <ManifestoSection onRestart={() => handleSelectSlide(0)} />;
       case 7:
-        return <ConclusionSection onRestart={() => handleSelectSlide(0)} />;
+        return <ConclusionSection onRestart={() => handleSelectSlide(0)} isActive={currentSlide === 7} isDeck={viewMode === 'deck'} />;
       default:
         return <HeroSection />;
     }
@@ -165,7 +165,7 @@ export const App: React.FC = () => {
           </div>
 
           <div ref={(el) => (sectionRefs.current[7] = el)} id="slide-7">
-            <ConclusionSection onRestart={() => handleSelectSlide(0)} />
+            <ConclusionSection onRestart={() => handleSelectSlide(0)} isActive={currentSlide === 7} isDeck={viewMode === 'deck'} />
           </div>
         </main>
       ) : (

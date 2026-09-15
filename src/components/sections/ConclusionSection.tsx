@@ -1,55 +1,127 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Volume1, Maximize, Sparkles, Shield, ArrowUpRight, MessageSquare, Terminal, Award, Music, Radio } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Volume1, Maximize, Minimize, MessageSquare, Terminal, Award, Radio, Tv } from 'lucide-react';
 import { sounds } from '../AudioController';
 import { BlurReveal } from '../BlurReveal';
 
-export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRestart }) => {
+interface ConclusionSectionProps {
+  onRestart?: () => void;
+  isActive?: boolean;
+  isDeck?: boolean;
+}
+
+export const ConclusionSection: React.FC<ConclusionSectionProps> = ({
+  onRestart,
+  isActive = true,
+  isDeck = false,
+}) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1.0);
-  const [autoplayBlocked, setAutoplayBlocked] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [hoveredCardIdx, setHoveredCardIdx] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Attempt unmuted playback with full audio volume on mount
+  // Helper to trigger native fullscreen on video element
+  const requestFullscreenVideo = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      } else if ((video as any).webkitRequestFullscreen) {
+        await (video as any).webkitRequestFullscreen();
+      } else if ((video as any).webkitEnterFullscreen) {
+        // iOS Safari specific
+        (video as any).webkitEnterFullscreen();
+      } else if ((video as any).msRequestFullscreen) {
+        await (video as any).msRequestFullscreen();
+      }
+    } catch (err) {
+      console.log('Automatic fullscreen request handled gracefully:', err);
+    }
+  }, []);
+
+  // Track native fullscreen state changes
   useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      );
+      setIsFullscreen(isCurrentlyFullscreen);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Keyboard shortcut listener ('F' for Fullscreen)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['input', 'textarea'].includes((e.target as HTMLElement)?.tagName?.toLowerCase())) return;
+      if (e.key.toLowerCase() === 'f' && isActive) {
+        e.preventDefault();
+        sounds.playClick();
+        if (!document.fullscreenElement) {
+          requestFullscreenVideo();
+        } else {
+          document.exitFullscreen?.().catch(() => {});
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isActive, requestFullscreenVideo]);
+
+  // Automatic playback and fullscreen trigger when slide becomes active
+  useEffect(() => {
+    if (!isActive) return;
+
     const video = videoRef.current;
     if (!video) return;
 
     video.volume = volume;
     video.muted = false;
 
+    // Reset and start playback with sound
+    video.currentTime = 0;
     const playPromise = video.play();
+
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
           setIsPlaying(true);
           setIsMuted(false);
-          setAutoplayBlocked(false);
+          // Trigger automatic fullscreen on slide entry
+          requestFullscreenVideo();
         })
         .catch((err) => {
-          console.log('Browser audio policy deferred unmuted autoplay:', err);
-          // If browser restricted unmuted autoplay, start muted and prompt user for 1-click sound
+          console.log('Unmuted autoplay restricted, initiating muted fallback:', err);
           video.muted = true;
           setIsMuted(true);
-          setAutoplayBlocked(true);
-          video.play().catch(() => {});
+          video.play().then(() => {
+            setIsPlaying(true);
+            requestFullscreenVideo();
+          }).catch(() => {});
         });
+    } else {
+      requestFullscreenVideo();
     }
-  }, []);
-
-  const enableAudioAndPlay = () => {
-    sounds.playClick();
-    if (!videoRef.current) return;
-    videoRef.current.muted = false;
-    videoRef.current.volume = volume || 1.0;
-    setIsMuted(false);
-    setAutoplayBlocked(false);
-    videoRef.current.play().then(() => {
-      setIsPlaying(true);
-    }).catch(() => {});
-  };
+  }, [isActive, requestFullscreenVideo, volume]);
 
   const togglePlay = () => {
     sounds.playClick();
@@ -74,7 +146,6 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
       videoRef.current.volume = volume || 1.0;
     }
     setIsMuted(nextMuted);
-    setAutoplayBlocked(false);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +156,6 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
       if (newVol > 0 && isMuted) {
         videoRef.current.muted = false;
         setIsMuted(false);
-        setAutoplayBlocked(false);
       } else if (newVol === 0) {
         videoRef.current.muted = true;
         setIsMuted(true);
@@ -101,14 +171,30 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
     videoRef.current.volume = volume;
     videoRef.current.play();
     setIsPlaying(true);
+    requestFullscreenVideo();
   };
 
-  const handleFullscreen = () => {
+  const toggleFullscreen = () => {
+    sounds.playClick();
+    if (!document.fullscreenElement) {
+      requestFullscreenVideo();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
+
+  const enableAudioAndFullscreen = () => {
     sounds.playClick();
     if (!videoRef.current) return;
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen().catch(() => {});
-    }
+    videoRef.current.muted = false;
+    videoRef.current.volume = volume || 1.0;
+    setIsMuted(false);
+    videoRef.current.play().then(() => {
+      setIsPlaying(true);
+    }).catch(() => {});
+    requestFullscreenVideo();
   };
 
   const actionCards = [
@@ -142,7 +228,10 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
   ];
 
   return (
-    <section className="relative w-full bg-[#F5EFEB] text-[#12161A] p-4 sm:p-6 lg:p-7 flex flex-col justify-between overflow-hidden border-b-4 border-[#B81D13] shadow-2xl rounded-2xl">
+    <section
+      ref={containerRef}
+      className="relative w-full bg-[#F5EFEB] text-[#12161A] p-4 sm:p-6 lg:p-7 flex flex-col justify-between overflow-hidden border-b-4 border-[#B81D13] shadow-2xl rounded-2xl"
+    >
       {/* Texture & Subtle Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-35 bg-[radial-gradient(#12161A_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
@@ -156,24 +245,34 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Fullscreen Quick Button */}
+              <button
+                onClick={requestFullscreenVideo}
+                className="text-xs font-tactical px-3 py-0.5 rounded-full border bg-[#B81D13] hover:bg-red-600 text-white border-[#B81D13] shadow-[0_0_12px_rgba(184,29,19,0.5)] font-bold cursor-pointer transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95"
+                title="Launch Video Fullscreen"
+              >
+                <Tv className="w-3.5 h-3.5 animate-pulse" />
+                <span>EXPAND FULLSCREEN</span>
+              </button>
+
               {/* Sound Active Tactical Indicator */}
               <span
                 onClick={toggleMute}
                 className={`text-xs font-tactical px-3 py-0.5 rounded-full border font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
                   !isMuted && isPlaying
-                    ? 'bg-[#B81D13] text-white border-[#B81D13] shadow-[0_0_10px_rgba(184,29,19,0.5)]'
+                    ? 'bg-[#12161A] text-white border-[#12161A]'
                     : 'bg-[#EDE3D8] hover:bg-[#B81D13] hover:text-white text-[#12161A] border-[#12161A]/15'
                 }`}
               >
                 {!isMuted && isPlaying ? (
                   <>
-                    <Volume2 className="w-3.5 h-3.5 animate-pulse" />
-                    <span>ORIGINAL SOUND: ACTIVE</span>
+                    <Volume2 className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                    <span>AUDIO: 100%</span>
                   </>
                 ) : (
                   <>
                     <VolumeX className="w-3.5 h-3.5 text-[#B81D13]" />
-                    <span>AUDIO MUTED // CLICK TO UNMUTE</span>
+                    <span>AUDIO MUTED</span>
                   </>
                 )}
               </span>
@@ -214,7 +313,7 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
         </BlurReveal>
       </div>
 
-      {/* Main Dual Grid: Outro Video with Original Audio (Left 7 Cols) + Interactive Action Matrix (Right 5 Cols) */}
+      {/* Main Dual Grid: Outro Video (Left 7 Cols) + Interactive Action Matrix (Right 5 Cols) */}
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 my-3 items-stretch">
         {/* Left 7 Cols: Video Showcase Player */}
         <div className="lg:col-span-7 flex flex-col justify-between">
@@ -222,7 +321,7 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
             <div className="flex items-center justify-between font-mono text-xs text-[#12161A] mb-1.5">
               <span className="font-bold flex items-center gap-1.5 font-tactical text-[11px]">
                 <span className="w-2 h-2 rounded-full bg-[#B81D13] animate-ping" />
-                OUTRO VIDEO WITH SOUNDTRACK // HAMSTER SENTINEL
+                OUTRO VIDEO // AUTO-FULLSCREEN &amp; AUDIO READY
               </span>
               <span className="text-[#B81D13] font-bold font-tactical text-[11px] flex items-center gap-1.5">
                 {!isMuted && isPlaying && (
@@ -233,7 +332,7 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
                     <span className="w-0.5 h-2 bg-[#B81D13] animate-[bounce_0.6s_infinite_400ms]"></span>
                   </span>
                 )}
-                {isPlaying ? '▶ BROADCASTING AUDIO' : '⏸ PAUSED'}
+                {isPlaying ? '▶ PLAYING WITH SOUND' : '⏸ PAUSED'}
               </span>
             </div>
 
@@ -249,15 +348,19 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
               <div className="absolute top-0 left-0 right-0 z-20 p-3 flex items-center justify-between bg-gradient-to-b from-black/80 via-black/40 to-transparent text-white font-mono text-[10px]">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-sm bg-[#B81D13]"></div>
-                  <span className="font-bold tracking-wider font-tactical text-[11px]">TERMINUS FEED // CAM-FINAL</span>
+                  <span className="font-bold tracking-wider font-tactical text-[11px]">TERMINUS FEED // AUTO-FULLSCREEN</span>
                 </div>
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={requestFullscreenVideo}
+                    className="px-2 py-0.5 rounded bg-[#B81D13] hover:bg-red-600 text-white font-bold flex items-center gap-1 cursor-pointer transition-colors shadow-sm"
+                  >
+                    <Maximize className="w-3 h-3" />
+                    FULLSCREEN (F)
+                  </button>
                   <div className="px-2 py-0.5 rounded bg-black/60 border border-white/20 text-emerald-400 font-bold flex items-center gap-1">
                     <Radio className="w-3 h-3 text-emerald-400 animate-pulse" />
                     STEREO 48kHz
-                  </div>
-                  <div className="px-2 py-0.5 rounded bg-black/60 border border-white/20 text-emerald-400 font-bold">
-                    24 FPS // SYNCED
                   </div>
                 </div>
               </div>
@@ -275,6 +378,7 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
                   onPause={() => setIsPlaying(false)}
                   className="w-full h-full object-contain cursor-pointer"
                   onClick={togglePlay}
+                  onDoubleClick={toggleFullscreen}
                 />
 
                 {/* Big Center Play/Pause button on pause */}
@@ -287,16 +391,18 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
                   </button>
                 )}
 
-                {/* Autoplay blocked / Click to Unmute Prompt Overlay */}
-                {isMuted && isPlaying && (
+                {/* Interactive Auto-Fullscreen & Sound Banner */}
+                {!isFullscreen && (
                   <motion.button
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    onClick={enableAudioAndPlay}
-                    className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-xl bg-[#B81D13]/95 hover:bg-red-600 text-white font-tactical text-xs font-bold uppercase tracking-wider shadow-[0_0_25px_rgba(184,29,19,0.9)] border border-white/40 flex items-center gap-2 cursor-pointer hover:scale-105 transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={enableAudioAndFullscreen}
+                    className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-xl bg-[#B81D13]/95 hover:bg-red-600 text-white font-tactical text-xs font-bold uppercase tracking-wider shadow-[0_0_25px_rgba(184,29,19,0.9)] border border-white/40 flex items-center gap-2 cursor-pointer transition-all"
                   >
-                    <Volume2 className="w-4 h-4 animate-bounce" />
-                    <span>CLICK TO UNMUTE ORIGINAL SOUNDTRACK</span>
+                    <Maximize className="w-4 h-4 animate-bounce" />
+                    <span>CLICK FOR CINEMATIC FULLSCREEN &amp; AUDIO</span>
                   </motion.button>
                 )}
               </div>
@@ -315,7 +421,7 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
                   <button
                     onClick={handleRestartVideo}
                     className="p-1.5 rounded-lg bg-[#1B222E] hover:bg-zinc-700 text-white transition-colors cursor-pointer"
-                    title="Replay from Beginning"
+                    title="Replay from Beginning (Auto-Fullscreen)"
                   >
                     <RotateCcw className="w-4 h-4" />
                   </button>
@@ -356,16 +462,21 @@ export const ConclusionSection: React.FC<{ onRestart?: () => void }> = ({ onRest
                 </div>
 
                 <div className="text-[11px] font-tactical font-bold text-zinc-400 hidden md:block">
-                  ORIGINAL SOUND ACTIVE
+                  AUTO-FULLSCREEN TRANSMISSION READY
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={handleFullscreen}
-                    className="p-1.5 rounded-lg bg-[#1B222E] hover:bg-zinc-700 text-white transition-colors cursor-pointer"
-                    title="Fullscreen"
+                    onClick={toggleFullscreen}
+                    className={`p-1.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 font-bold ${
+                      isFullscreen ? 'bg-[#B81D13] text-white' : 'bg-[#1B222E] hover:bg-[#B81D13] text-white'
+                    }`}
+                    title="Toggle Fullscreen"
                   >
-                    <Maximize className="w-4 h-4" />
+                    {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                    <span className="text-[10px] font-tactical hidden sm:inline">
+                      {isFullscreen ? 'EXIT FS' : 'FULLSCREEN'}
+                    </span>
                   </button>
                 </div>
               </div>
