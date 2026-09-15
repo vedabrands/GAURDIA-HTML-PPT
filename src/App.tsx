@@ -5,7 +5,7 @@ import { Navbar } from './components/Navbar';
 import { SlideDeckViewer } from './components/SlideDeckViewer';
 import { ScrollScrubberHUD } from './components/ScrollScrubberHUD';
 
-// 7 Slide Sections
+// 8 Slide Sections
 import { HeroSection } from './components/sections/HeroSection';
 import { ActionSection } from './components/sections/ActionSection';
 import { IntelligenceSection } from './components/sections/IntelligenceSection';
@@ -13,11 +13,12 @@ import { UnderstandingSection } from './components/sections/UnderstandingSection
 import { EngineSection } from './components/sections/EngineSection';
 import { EvolutionSection } from './components/sections/EvolutionSection';
 import { ManifestoSection } from './components/sections/ManifestoSection';
+import { ConclusionSection } from './components/sections/ConclusionSection';
 
 export const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<'scroll' | 'deck'>('scroll');
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const totalSlides = 7;
+  const totalSlides = 8;
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   // Smooth Scroll with Lenis
@@ -102,6 +103,8 @@ export const App: React.FC = () => {
         return <EvolutionSection />;
       case 6:
         return <ManifestoSection onRestart={() => handleSelectSlide(0)} />;
+      case 7:
+        return <ConclusionSection onRestart={() => handleSelectSlide(0)} />;
       default:
         return <HeroSection />;
     }
@@ -159,6 +162,10 @@ export const App: React.FC = () => {
 
           <div ref={(el) => (sectionRefs.current[6] = el)} id="slide-6">
             <ManifestoSection onRestart={() => handleSelectSlide(0)} />
+          </div>
+
+          <div ref={(el) => (sectionRefs.current[7] = el)} id="slide-7">
+            <ConclusionSection onRestart={() => handleSelectSlide(0)} />
           </div>
         </main>
       ) : (

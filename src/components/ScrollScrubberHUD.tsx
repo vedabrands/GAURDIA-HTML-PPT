@@ -61,6 +61,7 @@ export const ScrollScrubberHUD: React.FC<ScrollScrubberHUDProps> = ({
     { id: 4, label: '05', name: 'ENGINE', badge: 'ENG' },
     { id: 5, label: '06', name: 'ROADMAP', badge: 'MESH' },
     { id: 6, label: '07', name: 'MANIFESTO', badge: 'INV' },
+    { id: 7, label: '08', name: 'OUTRO', badge: 'END' },
   ];
 
   return (

@@ -71,6 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             { id: 4, label: '05 ENGINE' },
             { id: 5, label: '06 ROADMAP' },
             { id: 6, label: '07 MANIFESTO' },
+            { id: 7, label: '08 OUTRO' },
           ].map(s => (
             <button
               key={s.id}

@@ -35,6 +35,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
     { id: 4, title: 'INFERENCE ENGINE', code: 'ENG-05', tag: 'ZERO RE-ID CLOUD' },
     { id: 5, title: 'MUNICIPAL MESH', code: 'MESH-06', tag: 'MULTI-CAMERA GRID' },
     { id: 6, title: 'MANIFESTO & SPECS', code: 'INV-07', tag: 'FIRST PRINCIPLES' },
+    { id: 7, title: 'TRANSMISSION END', code: 'END-08', tag: 'MISSION COMPLETE' },
   ];
 
   // Helper for directed navigation
@@ -75,7 +76,7 @@ export const SlideDeckViewer: React.FC<SlideDeckViewerProps> = ({
       } else if (e.key.toLowerCase() === 'm') {
         sounds.playClick();
         onToggleViewMode();
-      } else if (e.key >= '1' && e.key <= '7') {
+      } else if (e.key >= '1' && e.key <= '8') {
         const slideIdx = parseInt(e.key, 10) - 1;
         if (slideIdx < totalSlides) {
           navigateTo(slideIdx);
